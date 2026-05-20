@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "struct.h"
+#include "includes/struct.h"
 
 
 typedef struct ficticio_struct cpu_t;
