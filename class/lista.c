@@ -1,13 +1,10 @@
-#include <stdio.h>
+// Created by ric on 06/06/2024.
 #include <stdlib.h>
-#include "struct.h"
+#include <stdint.h>
+#include <string.h>
+#include "../includes/lista.h"
 
-typedef struct Node{
-    dados data;
-    struct Node* next;
-} Node;
-
-int push(Node** head, dados new_data) {
+int push(Node** head, dados_st new_data) {
     Node* new_node = (Node*)malloc(sizeof(Node));
     if (!new_node) {
         return 0; // Failed to allocate memory
@@ -19,7 +16,7 @@ int push(Node** head, dados new_data) {
     return 1; // Success
 }
 
-int pop(Node** head, dados* data){
+int pop(Node** head, dados_st* data){
     if(*head == NULL) {
         return 0; // Stack is empty
     }
@@ -30,7 +27,7 @@ int pop(Node** head, dados* data){
     return 1; // Success
 }
 
-dados* searchId(Node* head, uint8_t id) {
+dados_st* searchId(Node* head, uint8_t id) {
     Node* current = head;
     while (current != NULL) {
         if (current->data.id == id) {
@@ -41,7 +38,7 @@ dados* searchId(Node* head, uint8_t id) {
     return NULL; // Not found
 }
 
-dados* searchName(Node* head, NAME name) {
+dados_st* searchName(Node* head, NAME name) {
     Node* current = head;
     while (current != NULL) {
         if (strcmp(current->data.name, name) == 0) {
@@ -52,7 +49,7 @@ dados* searchName(Node* head, NAME name) {
     return NULL; // Not found
 }
 
-Node* deleteNode(Node* head, uint8_t id) {
+Node* deleteId(Node* head, uint8_t id) {
     Node* current = head;
     Node* previous = NULL;
 
@@ -92,9 +89,23 @@ Node* deleteName(Node* head, NAME name) {
     return head; // Return the head if no node was deleted
 }
 
-/*
+void printList(Node* head) {
+    Node* current = head;
+    while (current != NULL) {
+        printf("ID: %d, Name: %s\n", current->data.id, current->data.name);
+        current = current->next;
+    }
+}
+
+//Test functions
+
+
 int main(int argc, char const *argv[])
 {
     Node* lista = NULL;   
+
+    dados_st data1 = {1, "Alice"};
+    push(&lista, data1);
+    printList(lista);
     return 0;
-}*/
+}

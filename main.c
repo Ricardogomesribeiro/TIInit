@@ -1,9 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#define LISTA
+
+int main(int argc, char const *argv[]) {
+    printf("Hello, World!\n");
+    return 0;
+}
+
+#ifdef OUTROS  
 #include "includes/struct.h"
-
-
 typedef struct ficticio_struct cpu_t;
 char bufferString[MAX_NAME_LENGTH];
 
@@ -16,7 +23,7 @@ cpu_t* carregar_struct(void) {
         strcpy(nxp->name, "NXP"); // Asignar el nombre "NXP"
         nxp->flag = 1; // Establecer el flag a 1
         nxp->gpio_b = 0x00; // Establecer gpio_b a 0xFF
-        nxp->ptrDigitos = NULL; // Inicializar el puntero a como NULL
+        //nxp->ptrDigitos = NULL; // Inicializar el puntero a como NULL
         nxp->ptrA = NULL; // Inicializar el
     }else {
         free(nxp);
@@ -96,3 +103,5 @@ int main(int argc, char const *argv[]) {
     printf("resultado do ponteiro *p: %d\n", *p);
     return 0;
 }
+#endif // OUTROS
+
