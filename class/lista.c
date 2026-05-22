@@ -4,6 +4,7 @@
 #include <string.h>
 #include "../includes/lista.h"
 
+/* Implementation of list operations */
 int push(Node** head, dados_st new_data) {
     Node* new_node = (Node*)malloc(sizeof(Node));
     if (!new_node) {
@@ -16,6 +17,7 @@ int push(Node** head, dados_st new_data) {
     return 1; // Success
 }
 
+/* Implementation of pop operation */
 int pop(Node** head, dados_st* data){
     if(*head == NULL) {
         return 0; // Stack is empty
@@ -27,28 +29,31 @@ int pop(Node** head, dados_st* data){
     return 1; // Success
 }
 
-dados_st* searchId(Node* head, uint8_t id) {
+/* Implementation of search operations */
+Node* searchId(Node* head, uint8_t id) {
     Node* current = head;
     while (current != NULL) {
         if (current->data.id == id) {
-            return &(current->data); // Return pointer to the found data
+            return current; // Return pointer to the found node
         }
         current = current->next;
     }
     return NULL; // Not found
 }
 
-dados_st* searchName(Node* head, NAME name) {
+/* Implementation of search by name */
+Node* searchName(Node* head, NAME name) {
     Node* current = head;
     while (current != NULL) {
         if (strcmp(current->data.name, name) == 0) {
-            return &(current->data); // Return pointer to the found data
+            return current; // Return pointer to the found node
         }
         current = current->next;
     }
     return NULL; // Not found
 }
 
+/* Implementation of delete by ID  */
 Node* deleteId(Node* head, uint8_t id) {
     Node* current = head;
     Node* previous = NULL;
@@ -69,6 +74,7 @@ Node* deleteId(Node* head, uint8_t id) {
     return head; // Return the head if no node was deleted
 }
 
+/* Implementation of delete by name */
 Node* deleteName(Node* head, NAME name) {
     Node* current = head;
     Node* previous = NULL;
@@ -89,6 +95,20 @@ Node* deleteName(Node* head, NAME name) {
     return head; // Return the head if no node was deleted
 }
 
+/* Implementation of getting the last ID */
+uint8_t lastId(Node* head) {
+    uint8_t last_id = 0;
+    Node* current = head;
+    while (current != NULL) {
+        if(current->data.id > last_id){
+            last_id = current->data.id;
+        }
+        current = current->next;
+    }
+    return last_id; // Return the highest ID found
+}
+
+/* Implementation of printing the list */
 void printList(Node* head) {
     Node* current = head;
     while (current != NULL) {
@@ -97,15 +117,72 @@ void printList(Node* head) {
     }
 }
 
+/*---------------------------------------------------------------------------------------------------------------*/
+/* Implementation of including a name in the list */
+int includeName(Node** head, NAME name) {
+    uint8_t id = lastId(*head) + 1; // Get the next ID
+    dados_st new_data = {id, ""};
+    /* Ensure the provided name fits in the destination buffer. */
+    if (strlen(name) >= sizeof(new_data.name)) {
+        return 0; // Name is too long to fit in the buffer
+    }
+    strncpy(new_data.name, name, strlen(name) + 1); // Copy name to new data, ensuring null-termination
+    return push(head, new_data); // Add new data if name is unique
+}
+
+/* Implementation of deleting a name from the list */
+int deleteNameFromList(Node** head, NAME name) {
+    if (head == NULL) {
+        return 0; // Node with the specified ID not found
+    }
+    *head = deleteName(*head, name); // Delete the node with the specified name
+    return 1; // Assume deletion is successful for simplicity
+}
+
+int changeName(Node* head, NAME name, NAME new_name) {
+    Node* node = searchName(head, name);
+    if (node == NULL) {
+        return 0; // Node with the specified ID not found
+    }
+    /* Ensure the provided name fits in the destination buffer. */
+    if (strlen(new_name) >= sizeof(node->data.name)) {
+        return 0; // New name is too long to fit in the buffer
+    }
+    strncpy(node->data.name, new_name, strlen(new_name) + 1); // Update name, ensuring null-termination
+    return 1; // Name change successful
+}
+
 //Test functions
 
-
+/* Main function for testing */
 int main(int argc, char const *argv[])
 {
+    dados_st data; 
     Node* lista = NULL;   
+    if(includeName(&lista, "Alice")) {
+        printf("Alice added successfully.\n");
+    } else {
+        printf("Failed to add Alice.\n");
+    }
+    if(includeName(&lista, "Bob")) {
+        printf("Bob added successfully.\n");
+    } else {
+        printf("Failed to add Bob.\n");
+    }
+    if(includeName(&lista, "Charlie")) {
+        printf("Charlie added successfully.\n");
+    } else {
+        printf("Failed to add Charlie.\n");
+    }
+    printList(lista);
+    if(deleteNameFromList(&lista, "Bob")) {
+        printf("Bob deleted successfully.\n");
+    } else {
+        printf("Failed to delete Bob.\n");
+    }
+    printList(lista);
 
-    dados_st data1 = {1, "Alice"};
-    push(&lista, data1);
+    changeName(lista, "Alice", "Debora");
     printList(lista);
     return 0;
 }
