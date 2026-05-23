@@ -1,9 +1,8 @@
 // Created by ric on 06/06/2024.
-#include <stdlib.h>
-#include <stdint.h>
-#include <string.h>
+
 #include "../includes/lista.h"
 
+//#define TESTE   
 /* Implementation of list operations */
 int push(Node** head, dados_st new_data) {
     Node* new_node = (Node*)malloc(sizeof(Node));
@@ -152,6 +151,7 @@ int changeName(Node* head, NAME name, NAME new_name) {
     return 1; // Name change successful
 }
 
+#ifdef TESTE
 //Test functions
 
 /* Main function for testing */
@@ -186,3 +186,4 @@ int main(int argc, char const *argv[])
     printList(lista);
     return 0;
 }
+#endif // TESTE

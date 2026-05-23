@@ -1,12 +1,81 @@
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 
 #define LISTA
 
+#ifdef LISTA
+
+#include "includes/lista.h"
+#include "class/lista.c"
+#endif // LISTA
+
+/****************** Implementação das funções da lista ******************/
 int main(int argc, char const *argv[]) {
-    printf("Hello, World!\n");
+    int condition = 0;
+#ifdef LISTA
+    Node* lista = NULL;
+    condition = 1; // Iniciar a condição para entrar no loop
+    while (condition)
+    {
+        printf("tecle: \n 1 para incluir um nome \n 2 para excluir um nome \n 3 para alterar um  \n 4 para imprimir a lista \n 0 para sair \n ");
+        scanf("%d", &condition);
+        switch (condition)
+        {
+        case 1:
+            {
+                char name[BUFFER_SIZE];
+                printf("Digite o nome a ser incluído: ");
+                scanf("%s", name);
+                if (includeName(&lista, name)) {
+                    printf("Nome incluído com sucesso!\n");
+                } else {
+                    printf("Falha ao incluir o nome. Verifique se o nome é único e se não excede o limite de caracteres.\n");
+                }
+            }
+            break;
+        case 2:
+            {
+                char name[BUFFER_SIZE];
+                printf("Digite o nome a ser excluído: ");
+                scanf("%s", name);
+                if (deleteNameFromList(&lista, name)) {
+                    printf("Nome excluído com sucesso!\n");
+                } else {
+                    printf("Falha ao excluir o nome. Verifique se o nome existe na lista.\n");
+                }
+            }
+            break;
+        case 3:
+            {
+                char name[BUFFER_SIZE];
+                char new_name[BUFFER_SIZE];
+                printf("Digite o nome a ser alterado: ");
+                scanf("%s", name);
+                printf("Digite o novo nome: ");
+                scanf("%s", new_name);
+                if (changeName(lista, name, new_name)) {
+                    printf("Nome alterado com sucesso!\n");
+                } else {
+                    printf("Falha ao alterar o nome. Verifique se o nome existe na lista e se o novo nome é válido.\n");
+                }
+            }
+            break;
+        case 4:
+            printList(lista);
+            break;
+        case 0:
+            condition = 0; // Sair do loop
+            break;
+        default:
+            printf("Opção inválida. Por favor, tente novamente.\n");
+            break;
+        } 
+    }
+    
     return 0;
+#endif // LISTA
 }
 
 #ifdef OUTROS  

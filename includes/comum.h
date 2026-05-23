@@ -10,6 +10,7 @@ enum {
     FIFO,
     PONTEIRO,
     BIT,
+    TESTE,
     OUTROS,
     };
 
