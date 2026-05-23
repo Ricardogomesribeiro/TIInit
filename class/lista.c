@@ -122,10 +122,11 @@ int includeName(Node** head, NAME name) {
     uint8_t id = lastId(*head) + 1; // Get the next ID
     dados_st new_data = {id, ""};
     /* Ensure the provided name fits in the destination buffer. */
-    if (strlen(name) >= sizeof(new_data.name)) {
+    if (strlen(name) >= BUFFER_SIZE) {
         return 0; // Name is too long to fit in the buffer
     }
-    strncpy(new_data.name, name, strlen(name) + 1); // Copy name to new data, ensuring null-termination
+    strncpy(new_data.name, name, BUFFER_SIZE - 1); // Copy name to new data, ensuring null-termination
+    new_data.name[BUFFER_SIZE - 1] = '\0'; // Ensure null-termination
     return push(head, new_data); // Add new data if name is unique
 }
 
@@ -144,10 +145,11 @@ int changeName(Node* head, NAME name, NAME new_name) {
         return 0; // Node with the specified ID not found
     }
     /* Ensure the provided name fits in the destination buffer. */
-    if (strlen(new_name) >= sizeof(node->data.name)) {
+    if (strlen(new_name) >= BUFFER_SIZE) {
         return 0; // New name is too long to fit in the buffer
     }
-    strncpy(node->data.name, new_name, strlen(new_name) + 1); // Update name, ensuring null-termination
+    strncpy(node->data.name, new_name, BUFFER_SIZE - 1); // Update name, ensuring null-termination
+    node->data.name[BUFFER_SIZE - 1] = '\0'; // Ensure null-termination
     return 1; // Name change successful
 }
 

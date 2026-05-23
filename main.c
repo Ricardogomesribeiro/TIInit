@@ -21,13 +21,15 @@ int main(int argc, char const *argv[]) {
     {
         printf("tecle: \n 1 para incluir um nome \n 2 para excluir um nome \n 3 para alterar um  \n 4 para imprimir a lista \n 0 para sair \n ");
         scanf("%d", &condition);
+        getchar(); // Limpar o buffer de entrada para evitar problemas com fgets ou scanf subsequentes
         switch (condition)
         {
         case 1:
             {
                 char name[BUFFER_SIZE];
                 printf("Digite o nome a ser incluído: ");
-                scanf("%s", name);
+                scanf("%[^\n]", name);
+                getchar(); // Limpar o buffer de entrada
                 if (includeName(&lista, name)) {
                     printf("Nome incluído com sucesso!\n");
                 } else {
@@ -39,7 +41,8 @@ int main(int argc, char const *argv[]) {
             {
                 char name[BUFFER_SIZE];
                 printf("Digite o nome a ser excluído: ");
-                scanf("%s", name);
+                scanf("%[^\n]", name);
+                getchar(); // Limpar o buffer de entrada
                 if (deleteNameFromList(&lista, name)) {
                     printf("Nome excluído com sucesso!\n");
                 } else {
@@ -52,9 +55,11 @@ int main(int argc, char const *argv[]) {
                 char name[BUFFER_SIZE];
                 char new_name[BUFFER_SIZE];
                 printf("Digite o nome a ser alterado: ");
-                scanf("%s", name);
+                scanf("%[^\n]", name);
+                getchar(); // Limpar o buffer de entrada
                 printf("Digite o novo nome: ");
-                scanf("%s", new_name);
+                scanf("%[^\n]", new_name);
+                getchar(); // Limpar o buffer de entrada
                 if (changeName(lista, name, new_name)) {
                     printf("Nome alterado com sucesso!\n");
                 } else {
