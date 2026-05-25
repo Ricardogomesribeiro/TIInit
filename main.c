@@ -3,18 +3,19 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define LISTA
+#define FIFO
+//#define LISTA
+//#define OUTROS
 
 #ifdef LISTA
 
 #include "includes/lista.h"
 #include "class/lista.c"
-#endif // LISTA
 
 /****************** Implementação das funções da lista ******************/
 int main(int argc, char const *argv[]) {
     int condition = 0;
-#ifdef LISTA
+
     Node* lista = NULL;
     condition = 1; // Iniciar a condição para entrar no loop
     while (condition)
@@ -80,8 +81,40 @@ int main(int argc, char const *argv[]) {
     }
     
     return 0;
-#endif // LISTA
 }
+#endif // LISTA
+#ifdef FIFO
+#include "includes/fifo.h"
+#include "class/fifo.c"
+int main(int argc, char const *argv[]) {
+    FIFO_t fila;
+    uint8_t data;
+    int result;
+    fifo_init(&fila);
+    result = fifo_is_full(&fila);
+    printf("Fila cheia: %s\n", result ? "Sim" : "Não\n");
+    result = fifo_is_empty(&fila);
+    printf("Fila vazia: %s\n", result ? "Sim" : "Não\n");
+    fifo_push(&fila, 10);
+    fifo_push(&fila, 20);
+    fifo_pop(&fila, &data);
+    printf("Valor removido: %d\n", data);
+    fifo_pop(&fila, &data);
+    printf("Valor removido: %d\n", data);
+    result = fifo_is_full(&fila);
+    printf("Fila cheia: %s\n", result ? "Sim" : "Não\n");
+    result = fifo_is_empty(&fila);
+    printf("Fila vazia: %s\n", result ? "Sim" : "Não\n");
+    for (int i = 0; i < SIZE - 1; i++) {
+        fifo_push(&fila, i);
+    }
+    result = fifo_is_full(&fila);
+    printf("Fila cheia: %s\n", result ? "Sim" : "Não\n");
+    result = fifo_is_empty(&fila);
+    printf("Fila vazia: %s\n", result ? "Sim" : "Não\n");
+    return 0;
+}
+#endif // FIFO
 
 #ifdef OUTROS  
 #include "includes/struct.h"
